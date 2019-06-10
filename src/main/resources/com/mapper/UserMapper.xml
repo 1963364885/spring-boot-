@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserMapper">
+    <resultMap id="user" type="com.pojo.User">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="create_time" column="create_time"/>
+    </resultMap>
+    <select id="login" resultMap="user">
+     SELECT * FROM user where username=#{Pojo.username}
+
+    </select>
+    <select id="zaixian" resultMap="user">
+        SELECT * FROM user where state=1
+--        SELECT COUNT(state) as jishu FROM user where state=1
+    </select>
+
+    <select id="cha" resultMap="user">
+     SELECT * FROM user
+    </select>
+
+    <insert id="register">
+      INSERT INTO user (username,password,name,create_time,state) VALUE(#{Pojo.username},#{Pojo.password},#{Pojo.name},#{Pojo.create_time},#{Pojo.state})
+    </insert>
+
+    <update id="zhuang">
+     update user set state=#{Pojo.state} where id=#{Pojo.id}
+    </update>
+
+<!--    <update id="zhuan">-->
+<!--     update user set state=#{Pojo.state} where-->
+<!--    </update>-->
+    <update id="update">
+        update user set username=#{pojo.name} where id=3
+    </update>
+    <delete id="delete">
+        delete from user  where id = #{Pojo.id};
+    </delete>
+
+    <sql id="select">
+        <where>
+            <if test="Pojo.id!=null">AND `id`LIKE #{Pojo.id}</if>
+            <if test="Pojo.username!=null">AND `username`LIKE #{Pojo.username}</if>
+            <if test="Pojo.password!=null">AND `password`LIKE #{Pojo.password}</if>
+        </where>
+    </sql>
+</mapper>

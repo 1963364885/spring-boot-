@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.DemandsMapper">
+    <resultMap id="user" type="com.pojo.Demands">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="content" column="content"/>
+        <result property="create_time" column="create_time"/>
+        <result property="creator" column="creator"/>
+    </resultMap>
+    <resultMap id="user1" type="com.pojo.User">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="create_time" column="create_time"/>
+
+    </resultMap>
+    <select id="cha" resultMap="user">
+     SELECT * FROM demands
+    </select>
+    <select id="ucha" resultMap="user1">
+     SELECT *FROM user where username=#{Pojo.username}
+    </select>
+    <select id="creatorcha" resultMap="user">
+     SELECT * FROM demands where   creator =#{Pojo.creator}
+    </select>
+    <select id="dcha" resultMap="user">
+          SELECT * FROM demands where  name=#{Pojo.name}
+    </select>
+    <insert id="zhen">
+      INSERT INTO demands (name,content,create_time,creator) VALUE(#{Pojo.name},#{Pojo.content},#{Pojo.create_time},#{Pojo.creator})
+    </insert>
+
+    <update id="gai">
+
+        update demands set name=#{Pojo.name} ,content=#{Pojo.content} where id=#{Pojo.id}
+    </update>
+    <delete id="shan">
+        delete from demands  where id = #{Pojo.id};
+    </delete>
+    <delete id="duoshan">
+        delete from demands  where id = #{Pojo.id};
+    </delete>
+    <sql id="select">
+        <where>
+            <if test="Pojo.id!=null">AND `id`LIKE #{Pojo.id}</if>
+            <if test="Pojo.username!=null">AND `username`LIKE #{Pojo.username}</if>
+            <if test="Pojo.password!=null">AND `password`LIKE #{Pojo.password}</if>
+        </where>
+    </sql>
+</mapper>
